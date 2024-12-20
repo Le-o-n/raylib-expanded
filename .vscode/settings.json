@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.jj": "java",
+        "*.pyd": "cython",
+        "raylib.h": "c"
+    }
+}
