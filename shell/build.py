@@ -35,6 +35,10 @@ libraries_dirpath: str = os.path.join(
 
 include_dirpaths: list[str] = [
     os.path.join(
+        root_dirpath,
+        "include"
+    ),
+    os.path.join(
         libraries_dirpath,
         "raylib-5.5_win64_mingw-w64",
         "include"
