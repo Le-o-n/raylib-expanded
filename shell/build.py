@@ -2,140 +2,153 @@ import os
 import glob
 import platform
 import sys
+from config_raylib import get_platform_raylib
 
-
-def get_raylib_distname() -> str:
-    
-    system: str = platform.system().lower()
-    architecture: str = platform.architecture()[0]
-    bits: str = "32" if architecture == "32bit" else "64"
-
-    folder: str
-    if system == "linux":
-        folder = f"raylib-5.5_linux{'i386' if bits == '32' else '_amd64'}"
-        
-    elif system == "windows":
-        compiler = "mingw-w64"
-        folder = f"raylib-5.5_win{bits}_{compiler}"
-    
-    else:
-        raise Exception("Unsupported OS")
-
-    return folder
-    
-
-BUILD_FILENAME: str = "main.exe"
-
-
-file_dirpath: str = os.path.abspath(
-    os.path.dirname(__file__)
-)
-
-root_dirpath: str = os.path.join(
-    file_dirpath,
+FILE_DIRPATH: str = os.path.abspath(os.path.dirname(__file__))
+ROOT: str = os.path.join(
+    FILE_DIRPATH,
     os.pardir
 )
 
-src_dirpath: str = os.path.join(
-    root_dirpath,
-    "src"
-)
 
-build_dirpath: str = os.path.join(
-    root_dirpath,
-    "build"
-)
-os.makedirs(
-    build_dirpath,
-    exist_ok=True
-)
+# ===============================================================
+# ===============================================================
+# ============= Global Settings for Compilation =================
+# ===============================================================
+# ===============================================================
 
-libraries_dirpath: str = os.path.join(
-    root_dirpath,
-    "libraries"
-)
-
-raylib_dist_dirpath: str = os.path.join(
-    libraries_dirpath,
-    "raylib-5.5",
-    get_raylib_distname()
-)
-
-raylib_include_dirpath: str = os.path.join(
-    raylib_dist_dirpath,
-    "include"
-)
-
-raylib_lib_dirpath: str = os.path.join(
-    raylib_dist_dirpath,
-    "lib"
-)
-
-local_include_dirpath: str = os.path.join(
-    root_dirpath,
-    "include"
-)
-
-include_dirpaths: list[str] = [
-    local_include_dirpath,
-    raylib_include_dirpath
+COMPILER: str = "gcc"
+OUT: list[str] = [
+    ROOT, "build", "main.exe"
+]
+C_FILES: list[list[str]] = [
+    [ROOT, "src", "*.c"]
 ]
 
-library_dirpaths: list[str] = [
-    raylib_lib_dirpath
+INCLUDE_PATHS: list[list[str]] = [
+    [ROOT, "include"],
+    [ROOT, "libraries", "clay-0.12", "include"],
+    [ROOT, "libraries", "raylib-5.5", get_platform_raylib(), "include"],
 ]
 
-libraries: list[str] = [
+LIBRARY_PATHS: list[list[str]] = [
+    [ROOT, "libraries", "raylib-5.5", get_platform_raylib(), "lib"]
+]
+
+LIBRARIES: list[str] = [
     "raylib",
     "opengl32",
     "gdi32",
     "winmm"
 ]
 
+# ===============================================================
+# ===============================================================
+# ===============================================================
+# ===============================================================
+# ===============================================================
 
-c_filepaths: list[str] = glob.glob(
-    os.path.join(
-        src_dirpath,
-        "*.c"
+
+def get_build_command(
+    compiler: str,
+    out: str,
+    c_filepaths: list[str],
+    include_dirpaths: list[str],
+    library_dirpaths: list[str],
+    libraries: list[str]
+) -> str:
+    
+    out_str: str = f"-o \"{out}\""
+    
+    c_filepaths_str: str = " ".join(
+        f"\"{c_filepath}\""
+        for c_filepath
+        in c_filepaths
     )
-)
-output_build_filepath: str = os.path.join(
-    build_dirpath,
-    BUILD_FILENAME
-)
-compiler_string: str = "gcc"
-output_string: str = f"-o {output_build_filepath}"
-c_files_string: str = ' '.join(c_filepaths)
-include_dirpaths_string: str = " ".join([
-    f"-I\"{include_dirpath}\""
-    for include_dirpath in
-    include_dirpaths
-])
-library_dirpaths_string: str = " ".join([
-    f"-L\"{library_dirpath}\""
-    for library_dirpath in
-    library_dirpaths
-])
-libraries_string: str = " ".join([
-    f"-l{lib}"
-    for lib in libraries
-])
+    
+    include_dirpaths_str: str = " ".join([
+        f"-I\"{include_dirpath}\""
+        for include_dirpath
+        in include_dirpaths
+    ])
+    
+    library_dirpaths_str: str = " ".join([
+        f"-L\"{library_dirpath}\""
+        for library_dirpath 
+        in library_dirpaths
+    ])
+    
+    libraries_str: str = " ".join([
+        f"-l{library}"
+        for library
+        in libraries
+    ])
+    
+    build_command: list[str] = [
+        compiler,
+        out_str,
+        c_filepaths_str,
+        include_dirpaths_str,
+        library_dirpaths_str,
+        libraries_str
+    ]
+    
+    return build_command
+    
+def main() -> None:
+    
+    if len(C_FILES) == 0:
+        print("No C files found in the src directory.")
+        exit(1)
+     
+    out_fullpath: str = os.path.join(*OUT)
+    
+    c_file_fullpaths: list[str] = []
+    
+    c_file: list[str]
+    for c_file in C_FILES:
+        
+        c_file_glob: str = os.path.join(*c_file)
+    
+        c_file_paths: list[str] = glob.glob(
+            c_file_glob
+        )  
+
+        for path in c_file_paths:
+            c_file_fullpaths.append(path)
+    
+    include_fullpaths: list[str] = [
+        os.path.join(*include)
+        for include
+        in INCLUDE_PATHS
+    ]
+    
+    library_fullpaths: list[str] = [
+        os.path.join(*library_path)
+        for library_path
+        in LIBRARY_PATHS
+    ]  
+    
+    command: str = " ".join(
+        get_build_command(
+            COMPILER,
+            out_fullpath,
+            c_file_fullpaths,
+            include_fullpaths,
+            library_fullpaths,
+            LIBRARIES
+            
+        )
+    )
+    pass
+    # gcc -o build/test.exe test.c -I"C:\raylib\include" -L"C:\raylib\lib" -lraylib -lopengl32 -lgdi32 -lwinmm
+
+    print(f"Running command: {command}\n")
+    os.system(command)
+    
+
+
 
 if __name__ == "__main__":
-    if c_filepaths:
-
-        command: str = " ".join([
-            compiler_string,
-            output_string,
-            c_files_string,
-            include_dirpaths_string,
-            library_dirpaths_string,
-            libraries_string
-        ])
-
-        # gcc -o build/test.exe test.c -I"C:\raylib\include" -L"C:\raylib\lib" -lraylib -lopengl32 -lgdi32 -lwinmm
-
-        print(f"Running command: {command}")
-        os.system(command)
-    else:
-        print("No C files found in the src directory.")
+    main()
+    
