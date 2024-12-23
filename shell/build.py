@@ -1,6 +1,28 @@
 import os
 import glob
+import platform
+import sys
 
+
+def get_raylib_distname() -> str:
+    
+    system: str = platform.system().lower()
+    architecture: str = platform.architecture()[0]
+    bits: str = "32" if architecture == "32bit" else "64"
+
+    folder: str
+    if system == "linux":
+        folder = f"raylib-5.5_linux{'i386' if bits == '32' else '_amd64'}"
+        
+    elif system == "windows":
+        compiler = "mingw-w64"
+        folder = f"raylib-5.5_win{bits}_{compiler}"
+    
+    else:
+        raise Exception("Unsupported OS")
+
+    return folder
+    
 
 BUILD_FILENAME: str = "main.exe"
 
@@ -33,24 +55,34 @@ libraries_dirpath: str = os.path.join(
     "libraries"
 )
 
+raylib_dist_dirpath: str = os.path.join(
+    libraries_dirpath,
+    "raylib-5.5",
+    get_raylib_distname()
+)
+
+raylib_include_dirpath: str = os.path.join(
+    raylib_dist_dirpath,
+    "include"
+)
+
+raylib_lib_dirpath: str = os.path.join(
+    raylib_dist_dirpath,
+    "lib"
+)
+
+local_include_dirpath: str = os.path.join(
+    root_dirpath,
+    "include"
+)
+
 include_dirpaths: list[str] = [
-    os.path.join(
-        root_dirpath,
-        "include"
-    ),
-    os.path.join(
-        libraries_dirpath,
-        "raylib-5.5_win64_mingw-w64",
-        "include"
-    )
+    local_include_dirpath,
+    raylib_include_dirpath
 ]
 
 library_dirpaths: list[str] = [
-    os.path.join(
-        libraries_dirpath,
-        "raylib-5.5_win64_mingw-w64",
-        "lib"
-    )
+    raylib_lib_dirpath
 ]
 
 libraries: list[str] = [
