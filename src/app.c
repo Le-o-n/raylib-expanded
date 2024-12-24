@@ -1,13 +1,24 @@
 #include "app.h"
-#include "game_state.h"
-#include "game_window.h"
-#include "ui.h"
-#include "config.h"
 
 int Config_isRunning = 1;
 
+
+GameWindow_Context game_window_context; // move to an App_Context struct
+SoundManager_Context sound_manager_context; // move to an App_Context struct
+
 void App_init(void) {
-    GameWindow_init();
+
+    SoundManager_Context_init(
+        &sound_manager_context
+    );
+
+    GameWindow_Context_init(
+        &game_window_context,
+        &sound_manager_context,
+        Config_SCREEN_WIDTH,
+        Config_SCREEN_HEIGHT,
+        Config_WINDOW_TITLE
+    );
     UI_init();
     GameState_init();
     
@@ -15,7 +26,7 @@ void App_init(void) {
 
 void App_update(void){
     GameState_update();
-    GameWindow_update();
+    GameWindow_Context_update(&game_window_context);
     UI_update();
 }
 
@@ -39,6 +50,7 @@ void App_run(void) {
 void App_unload(void) {
     GameState_unload();
     UI_unload();
-    GameWindow_unload();
+    GameWindow_Context_unload(&game_window_context);
+    SoundManager_Context_unload(&sound_manager_context);
     CloseWindow();  // Close the window and OpenGL context
 }
