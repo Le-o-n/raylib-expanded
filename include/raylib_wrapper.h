@@ -6,6 +6,8 @@
 
 #define Raylib_Colour_RAYWHITE RAYWHITE
 #define Raylib_Colour_BLUE BLUE
+#define Raylib_Colour_GREEN GREEN
+
 
 // Example namespace: Raylib_Window_initWindow
 // Aliases for window management functions

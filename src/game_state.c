@@ -34,7 +34,17 @@ void GameState_Context_draw(GameState_Context* context) {
         Raylib_Colour_BLUE
     );
 
+    Raylib_Draw_drawRectangle(
+        350, 
+        250, 
+        100, 
+        100, 
+        Raylib_Colour_GREEN
+    );
+
     Raylib_Draw_endDrawing();
+
+
 }
 
 void GameState_Context_unload(GameState_Context* context){
