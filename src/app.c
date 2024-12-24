@@ -7,10 +7,14 @@ GameState_Context game_state_context;
 SoundManager_Context sound_manager_context; 
 UI_context ui_context;
 
-void App_run() {
+void App_run(
+    GameWindow_Context* game_window,
+    GameState_Context* game_state,
+    SoundManager_Context* sound_manager,
+    UI_context* ui
+){
 
     App_Context app_context;
-
     App_Context_init(&app_context);
 
     while (Config_isRunning) {
@@ -21,7 +25,13 @@ void App_run() {
     App_Context_unload(&app_context);
 }
 
-void App_Context_init(App_Context* context) {
+void App_Context_init(
+    App_Context* context,
+    GameWindow_Context* game_window,
+    GameState_Context* game_state,
+    SoundManager_Context* sound_manager,
+    UI_context* ui
+) {
 
     if (context == 0){
         return;

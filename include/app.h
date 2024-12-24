@@ -14,8 +14,19 @@ typedef struct{
     UI_context* ui_context;
 } App_Context;
 
-void App_run();
-void App_Context_init(App_Context* context);
+void App_run(
+    GameWindow_Context* game_window,
+    GameState_Context* game_state,
+    SoundManager_Context* sound_manager,
+    UI_context* ui
+);
+void App_Context_init(
+    App_Context* context,
+    GameWindow_Context* game_window,
+    GameState_Context* game_state,
+    SoundManager_Context* sound_manager,
+    UI_context* ui
+);
 void App_Context_update(App_Context* context);
 void App_Context_unload(App_Context* context);
 void App_Context_draw(App_Context* context);
