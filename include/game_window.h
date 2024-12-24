@@ -8,7 +8,6 @@
 
 
 typedef struct {
-    SoundManager_Context* sound_manager_context;
     int last_width;
     int last_height;
 
@@ -16,7 +15,6 @@ typedef struct {
 
 void GameWindow_Context_init(
     GameWindow_Context* context, 
-    SoundManager_Context* sound_manager_context,
     int width,
     int height,
     const char* title

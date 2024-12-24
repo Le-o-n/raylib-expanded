@@ -6,11 +6,17 @@
 #include "ui.h"
 #include "config.h"
 #include "raylib.h"
- 
-void App_init(void);
-void App_update(void);
-void App_run(void);
-void App_unload(void);
-void App_draw(void);
+
+typedef struct{
+    GameWindow_Context* game_window_context;
+    //GameState_Context* game_state_context;
+    SoundManager_Context* sound_manager_context;
+} App_Context;
+
+void App_run();
+void App_Context_init(App_Context* context);
+void App_Context_update(App_Context* context);
+void App_Context_unload(App_Context* context);
+void App_Context_draw(App_Context* context);
 
 #endif 

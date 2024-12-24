@@ -4,12 +4,10 @@
 
 void GameWindow_Context_init(
     GameWindow_Context* context, 
-    SoundManager_Context* sound_manager_context,
     int width,
     int height,
     const char* title
 ){
-    context->sound_manager_context = sound_manager_context;
     context->last_width = width;
     context->last_height = height;
 
