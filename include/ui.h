@@ -1,9 +1,9 @@
 #ifndef UI_H
 #define UI_H
 
-void InitUI(void);
-void UpdateUI(void);
-void DrawUI(void);
-void UnloadUI(void);
+void UI_init(void);
+void UI_update(void);
+void UI_draw(void);
+void UI_unload(void);
 
 #endif

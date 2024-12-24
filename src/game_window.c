@@ -1,23 +1,24 @@
 #include "game_window.h"
 #include "config.h"
+#include "raylib_wrapper.h"
 
-void InitGameWindow(){
+void GameWindow_init(){
     InitWindow(
-        SCREEN_WIDTH, 
-        SCREEN_HEIGHT, 
-        WINDOW_TITLE
+        Config_SCREEN_WIDTH, 
+        Config_SCREEN_HEIGHT, 
+        Config_WINDOW_TITLE
     );
 }
 
-void UpdateGameWindow(void) {
-    
-    if (WindowShouldClose()) {
-        isRunning = false; 
+void GameWindow_update(void) {
+
+    if (Raylib_Window_shouldClose()) {
+        Config_isRunning = 0; 
     }
 
 }
 
 
-void UnloadGameWindow(void){
+void GameWindow_unload(void){
     
 }

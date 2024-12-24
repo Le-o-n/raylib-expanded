@@ -2,7 +2,7 @@ import os
 import glob
 import platform
 import sys
-from config_raylib import get_platform_raylib
+from resolve_library import Raylib
 
 FILE_DIRPATH: str = os.path.abspath(os.path.dirname(__file__))
 ROOT: str = os.path.join(
@@ -28,11 +28,11 @@ C_FILES: list[list[str]] = [
 INCLUDE_PATHS: list[list[str]] = [
     [ROOT, "include"],
     [ROOT, "libraries", "clay-0.12", "include"],
-    [ROOT, "libraries", "raylib-5.5", get_platform_raylib(), "include"],
+    [ROOT, "libraries", "raylib-5.5", Raylib.get_dist(), "include"],
 ]
 
 LIBRARY_PATHS: list[list[str]] = [
-    [ROOT, "libraries", "raylib-5.5", get_platform_raylib(), "lib"]
+    [ROOT, "libraries", "raylib-5.5", Raylib.get_dist(), "lib"]
 ]
 
 LIBRARIES: list[str] = [

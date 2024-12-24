@@ -1,17 +1,17 @@
 #include "ui.h"
 
-void InitUI(void){
+void UI_init(void){
 
 }
 
-void UpdateUI(void){
+void UI_update(void){
     
 }
 
-void DrawUI(void) {
+void UI_draw(void) {
     
 }
 
-void UnloadUI(void){
+void UI_unload(void){
 
 }

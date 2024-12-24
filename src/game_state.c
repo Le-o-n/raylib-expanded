@@ -1,25 +1,28 @@
 #include "game_state.h"
 
-void InitGameState(void){
+void GameState_init(void){
     
 }
 
-void UpdateGameState(void) {
+void GameState_update(void) {
     
 }
 
-void DrawGameState(void) {
-    // Begin drawing
-    BeginDrawing();
-    ClearBackground(RAYWHITE);
+void GameState_draw(void) {
+    
+    Raylib_Draw_beginDrawing();
+    Raylib_Draw_clearBackground(Raylib_Colour_RAYWHITE);
+    Raylib_Draw_drawRectangle(
+        100, 
+        100, 
+        200, 
+        100, 
+        Raylib_Colour_BLUE
+    );
 
-    // Example: draw a simple rectangle
-    DrawRectangle(100, 100, 200, 100, BLUE);
-
-    // End drawing
-    EndDrawing();
+    Raylib_Draw_endDrawing();
 }
 
-void UnloadGameState(void){
+void GameState_unload(void){
 
 }

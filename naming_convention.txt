@@ -1,0 +1,4 @@
+
+ModuleNamespace_Struct_someFunction(ModuleNamespace_Struct& self)
+
+ModuleNamespace_someFunction

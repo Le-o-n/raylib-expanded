@@ -3,6 +3,6 @@
 
 int main(void)
 {
-    RunApplication();
+    App_run();
     return 0;
 }
