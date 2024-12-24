@@ -1,17 +1,27 @@
 #include "ui.h"
 
-void UI_init(void){
+void UI_Context_init(UI_context* context){
+    if (context == 0){
+        return;
+    }
+}
+
+void UI_Context_update(UI_context* context){
+    if (context == 0){
+        return;
+    }
+}
+
+void UI_Context_draw(UI_context* context) {
+    if (context == 0){
+        return;
+    }
 
 }
 
-void UI_update(void){
-    
-}
-
-void UI_draw(void) {
-    
-}
-
-void UI_unload(void){
+void UI_Context_unload(UI_context* context){
+    if (context == 0){
+        return;
+    }
 
 }

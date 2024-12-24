@@ -1,9 +1,13 @@
 #ifndef UI_H
 #define UI_H
 
-void UI_init(void);
-void UI_update(void);
-void UI_draw(void);
-void UI_unload(void);
+typedef struct{
+    int padding;
+} UI_context;
+
+void UI_Context_init(UI_context* context);
+void UI_Context_update(UI_context* context);
+void UI_Context_draw(UI_context* context);
+void UI_Context_unload(UI_context* context);
 
 #endif

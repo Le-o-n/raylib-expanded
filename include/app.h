@@ -11,6 +11,7 @@ typedef struct{
     GameWindow_Context* game_window_context;
     GameState_Context* game_state_context;
     SoundManager_Context* sound_manager_context;
+    UI_context* ui_context;
 } App_Context;
 
 void App_run();
