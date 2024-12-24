@@ -2,13 +2,18 @@
 
 int Config_isRunning = 1;
 
-GameWindow_Context game_window_context;
+GameWindow_Context game_window_context; // not a fan of this global scope, move to main?
+GameState_Context game_state_context;
 SoundManager_Context sound_manager_context; 
 
 void App_Context_init(App_Context* context) {
 
     SoundManager_Context_init(
         &sound_manager_context
+    );
+
+    GameState_Context_init(
+        &game_state_context
     );
 
     GameWindow_Context_init(
@@ -18,21 +23,21 @@ void App_Context_init(App_Context* context) {
         Config_WINDOW_TITLE
     );
     UI_init();
-    GameState_init();
 
     context->game_window_context = &game_window_context;
+    context->game_state_context = &game_state_context;
     context->sound_manager_context = &sound_manager_context;
     
 }
 
 void App_Context_update(App_Context* context){
-    GameState_update();
+    GameState_Context_update(context->game_state_context);
     GameWindow_Context_update(&game_window_context);
     UI_update();
 }
 
 void App_Context_draw(App_Context* context){
-    GameState_draw();
+    GameState_Context_draw(context->game_state_context);
     UI_draw();
 }
 
@@ -51,7 +56,7 @@ void App_run() {
 }
 
 void App_Context_unload(App_Context* context) {
-    GameState_unload();
+    GameState_Context_unload(context->game_state_context);
     UI_unload();
     GameWindow_Context_unload(context->game_window_context);
     SoundManager_Context_unload(context->sound_manager_context);

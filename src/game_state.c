@@ -1,14 +1,20 @@
 #include "game_state.h"
 
-void GameState_init(void){
+
+
+
+void GameState_Context_init(GameState_Context* context){
     
 }
 
-void GameState_update(void) {
+void GameState_Context_update(GameState_Context* context) {
     
+
+
+
 }
 
-void GameState_draw(void) {
+void GameState_Context_draw(GameState_Context* context) {
     
     Raylib_Draw_beginDrawing();
     Raylib_Draw_clearBackground(Raylib_Colour_RAYWHITE);
@@ -23,6 +29,6 @@ void GameState_draw(void) {
     Raylib_Draw_endDrawing();
 }
 
-void GameState_unload(void){
+void GameState_Context_unload(GameState_Context* context){
 
 }

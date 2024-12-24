@@ -9,7 +9,7 @@
 
 typedef struct{
     GameWindow_Context* game_window_context;
-    //GameState_Context* game_state_context;
+    GameState_Context* game_state_context;
     SoundManager_Context* sound_manager_context;
 } App_Context;
 
