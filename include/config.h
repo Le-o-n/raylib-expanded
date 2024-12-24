@@ -2,21 +2,21 @@
 #define CONFIG_H
 
 // Declare the global variable isRunning
-extern int isRunning;  
+extern int Config_isRunning;  
 
 // Screen size
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
+#define Config_SCREEN_WIDTH 800
+#define Config_SCREEN_HEIGHT 600
 
 // Window title
-#define WINDOW_TITLE "My Raylib App"
+#define Config_WINDOW_TITLE "My Raylib App"
 
 // Colors
-#define BACKGROUND_COLOR RAYWHITE
-#define RECTANGLE_COLOR BLUE
+#define Config_BACKGROUND_COLOR RAYWHITE
+#define Config_RECTANGLE_COLOR BLUE
 
-#define TARGET_FPS 144
+#define Config_TARGET_FPS 144
 
-#define MAX_OBJECTS 100
+#define Config_MAX_OBJECTS 100
 
 #endif 

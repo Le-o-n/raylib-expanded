@@ -3,9 +3,10 @@
 
 #include "raylib.h"
  
-void InitApplication(void);
-void UpdateApplication(void);
-void RunApplication(void);
-void UnloadApplication(void);
+void App_init(void);
+void App_update(void);
+void App_run(void);
+void App_unload(void);
+void App_draw(void);
 
 #endif 

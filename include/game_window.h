@@ -4,8 +4,8 @@
 #include "config.h"
 #include "raylib.h"
 
-void InitGameWindow(void);
-void UpdateGameWindow(void);
-void UnloadGameWindow(void);
+void GameWindow_init(void);
+void GameWindow_update(void);
+void GameWindow_unload(void);
 
 #endif

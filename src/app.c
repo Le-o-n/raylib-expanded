@@ -4,41 +4,41 @@
 #include "ui.h"
 #include "config.h"
 
-int isRunning = 1;
+int Config_isRunning = 1;
 
-void InitApplication(void) {
-    InitGameWindow();
-    InitUI();
-    InitGameState();
+void App_init(void) {
+    GameWindow_init();
+    UI_init();
+    GameState_init();
     
 }
 
-void UpdateApplication(void){
-    UpdateGameState();
-    UpdateGameWindow();
-    UpdateUI();
+void App_update(void){
+    GameState_update();
+    GameWindow_update();
+    UI_update();
 }
 
-void DrawApplication(void){
-    DrawGameState();
-    DrawUI();
+void App_draw(void){
+    GameState_draw();
+    UI_draw();
 }
 
-void RunApplication(void) {
+void App_run(void) {
 
-    InitApplication();
+    App_init();
 
-    while (isRunning) {
-        UpdateApplication();
-        DrawApplication();
+    while (Config_isRunning) {
+        App_update();
+        App_draw();
     }
 
-    UnloadApplication();
+    App_unload();
 }
 
-void UnloadApplication(void) {
-    UnloadGameState();
-    UnloadUI();
-    UnloadGameWindow();
+void App_unload(void) {
+    GameState_unload();
+    UI_unload();
+    GameWindow_unload();
     CloseWindow();  // Close the window and OpenGL context
 }
