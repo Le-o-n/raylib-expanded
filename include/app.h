@@ -8,10 +8,10 @@
 #include "raylib.h"
 
 typedef struct{
-    GameWindow_Context* game_window_context;
-    GameState_Context* game_state_context;
-    SoundManager_Context* sound_manager_context;
-    UI_context* ui_context;
+    GameWindow_Context* game_window;
+    GameState_Context* game_state;
+    SoundManager_Context* sound_manager;
+    UI_context* ui;
 } App_Context;
 
 void App_run(
@@ -21,14 +21,14 @@ void App_run(
     UI_context* ui
 );
 void App_Context_init(
-    App_Context* context,
+    App_Context* app,
     GameWindow_Context* game_window,
     GameState_Context* game_state,
     SoundManager_Context* sound_manager,
     UI_context* ui
 );
-void App_Context_update(App_Context* context);
-void App_Context_unload(App_Context* context);
-void App_Context_draw(App_Context* context);
+void App_Context_update(App_Context* app);
+void App_Context_unload(App_Context* app);
+void App_Context_draw(App_Context* app);
 
 #endif 

@@ -1,17 +1,17 @@
 #include "sound_manager.h"
 
 
-void SoundManager_Context_init(SoundManager_Context* context){
-    if (context == 0){
+void SoundManager_Context_init(SoundManager_Context* sound_manager){
+    if (sound_manager == 0){
         return;
     }
     
-    context->soundCount = 0;
-    context->volume = 1.0;
+    sound_manager->soundCount = 0;
+    sound_manager->volume = 1.0;
 }
 
-void SoundManager_Context_unload(SoundManager_Context* context){
-    if (context == 0){
+void SoundManager_Context_unload(SoundManager_Context* sound_manager){
+    if (sound_manager == 0){
         return;
     }
 

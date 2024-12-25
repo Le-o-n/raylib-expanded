@@ -3,17 +3,17 @@
 
 
 void GameWindow_Context_init(
-    GameWindow_Context* context, 
+    GameWindow_Context* game_window, 
     int width,
     int height,
     const char* title
 ){
-    if (context == 0){
+    if (game_window == 0){
         return;
     }
 
-    context->last_width = width;
-    context->last_height = height;
+    game_window->last_width = width;
+    game_window->last_height = height;
 
     Raylib_Window_init(
         width, 
@@ -22,8 +22,8 @@ void GameWindow_Context_init(
     );
 }
 
-void GameWindow_Context_update(GameWindow_Context* context){
-    if (context == 0){
+void GameWindow_Context_update(GameWindow_Context* game_window){
+    if (game_window == 0){
         return;
     }
     
@@ -32,8 +32,8 @@ void GameWindow_Context_update(GameWindow_Context* context){
     }
 }
 
-void GameWindow_Context_unload(GameWindow_Context* context){
-    if (context == 0){
+void GameWindow_Context_unload(GameWindow_Context* game_window){
+    if (game_window == 0){
         return;
     }
 

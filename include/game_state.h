@@ -8,9 +8,9 @@ typedef struct{
 
 } GameState_Context;
 
-void GameState_Context_init(GameState_Context* context);
-void GameState_Context_update(GameState_Context* context);         
-void GameState_Context_draw(GameState_Context* context);                
-void GameState_Context_unload(GameState_Context* context);
+void GameState_Context_init(GameState_Context* game_state);
+void GameState_Context_update(GameState_Context* game_state);         
+void GameState_Context_draw(GameState_Context* game_state);                
+void GameState_Context_unload(GameState_Context* game_state);
 
 #endif

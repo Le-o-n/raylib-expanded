@@ -1,4 +1,0 @@
-- main calls my_game.c and my_game.c initialises the subsystem contexts and then calls App_run(GameWindow_Context* game_window, GameState_Context* game_state, SoundManager* sound_manager, UI_Context* ui) 
-- rename all file from referencing 
-    - ModuleName_Context module_name_context -> module_name
-    - ModuleName_Context context -> module_name
