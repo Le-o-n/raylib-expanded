@@ -1,7 +1,7 @@
 #include "my_game.h"
 
 
-void MyGame_run(void){
+void MyGame_run(){
 
     SoundManager_Context sound_manager_context;
     GameState_Context game_state_context;

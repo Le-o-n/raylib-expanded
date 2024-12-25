@@ -1,5 +1,5 @@
 #ifndef GAME_STATE_H
-#define GAME_STATE
+#define GAME_STATE_H
 
 #include "raylib_wrapper.h"
         

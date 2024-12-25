@@ -15,7 +15,13 @@ void App_run(
 ){
 
     App_Context app_context;
-    App_Context_init(&app_context);
+    App_Context_init(
+        &app_context,
+        game_window,
+        game_state,
+        sound_manager,
+        ui
+    );
 
     while (Config_isRunning) {
         App_Context_update(&app_context);
