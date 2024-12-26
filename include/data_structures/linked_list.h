@@ -26,13 +26,18 @@ void LinkedList_Node_init(void *data);
 void LinkedList_Node_unload(LinkedList_Node *node);
 
 // Function prototypes for LinkedList_List
-void LinkedList_Doubly_init(LinkedList_List* list);
-void LinkedList_Doubly_unload(LinkedList_List* list);
-int LinkedList_Doubly_insertAtHead(LinkedList_List* list, void *data);
-int LinkedList_Doubly_insertAtTail(LinkedList_List* list, void *data);
-void* LinkedList_Doubly_pop(LinkedList_List* list);
-void* LinkedList_Doubly_popHead(LinkedList_List* list);
-LinkedList_Node* LinkedList_Doubly_find(LinkedList_List* list, void *data, int (*comparator)(void *, void *));
-size_t LinkedList_Doubly_size(LinkedList_List* list);
+void LinkedList_List_init(LinkedList_List* list);
+void LinkedList_List_unload(LinkedList_List* list);
+int LinkedList_List_pushHead(LinkedList_List* list, void *data);
+int LinkedList_List_pushTail(LinkedList_List* list, void *data);
+void* LinkedList_List_popTail(LinkedList_List* list);
+void* LinkedList_List_popHead(LinkedList_List* list);
+LinkedList_Node* LinkedList_List_find(LinkedList_List* list, void *data, int (*comparator)(void *, void *));
+size_t LinkedList_List_size(LinkedList_List* list);
+
+void* LinkedList_List_peakHead(LinkedList_List* list);
+void* LinkedList_List_peakTail(LinkedList_List* list);
+void* LinkedList_List_peakIndex(LinkedList_List* list, size_t index, bool iter_forward);
+LinkedList_Node* LinkedList_List_index(LinkedList_List* list, size_t index, bool iter_forward);
 
 #endif // LINKED_LIST_H

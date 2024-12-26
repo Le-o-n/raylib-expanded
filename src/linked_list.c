@@ -22,7 +22,7 @@ void LinkedList_Node_unload(
 }
 
 // Initialize an empty doubly linked list
-void LinkedList_Doubly_init(
+void LinkedList_List_init(
     LinkedList_List *list
 ) {
     if (!list) return;
@@ -32,7 +32,7 @@ void LinkedList_Doubly_init(
 }
 
 // Unload a doubly linked list (free all nodes)
-void LinkedList_Doubly_unload(
+void LinkedList_List_unload(
     LinkedList_List *list
 ) {
     if (!list) return;
@@ -48,7 +48,7 @@ void LinkedList_Doubly_unload(
 }
 
 // Insert a new node at the head of the list
-int LinkedList_Doubly_insertAtHead(
+int LinkedList_List_pushHead(
     LinkedList_List *list, 
     void *data
 ) {
@@ -74,7 +74,7 @@ int LinkedList_Doubly_insertAtHead(
 }
 
 // Insert a new node at the tail of the list
-int LinkedList_Doubly_insertAtTail(
+int LinkedList_List_pushTail(
     LinkedList_List *list, 
     void *data
 ) {
@@ -100,7 +100,7 @@ int LinkedList_Doubly_insertAtTail(
 }
 
 // Pop a node from the tail of the list
-void* LinkedList_Doubly_pop(
+void* LinkedList_List_popTail(
     LinkedList_List *list
 ) {
     if (!list || !list->tail) return NULL;
@@ -122,7 +122,7 @@ void* LinkedList_Doubly_pop(
 }
 
 // Pop a node from the head of the list
-void* LinkedList_Doubly_popHead(
+void* LinkedList_List_popHead(
     LinkedList_List *list) {
     if (!list || !list->head) return NULL;
 
@@ -143,7 +143,7 @@ void* LinkedList_Doubly_popHead(
 }
 
 // Find a node with data matching the comparator function
-LinkedList_Node* LinkedList_Doubly_find(
+LinkedList_Node* LinkedList_List_find(
     LinkedList_List *list, 
     void *data, 
     int (*comparator)(void *, void *)
@@ -162,9 +162,50 @@ LinkedList_Node* LinkedList_Doubly_find(
 }
 
 // Get the size of the list
-size_t LinkedList_Doubly_size(
+size_t LinkedList_List_size(
     LinkedList_List *list
 ) {
     if (!list) return 0;
     return list->size;
+}
+
+// Peek at the head of the list without removing it
+void* LinkedList_List_peakHead(LinkedList_List *list) {
+    if (!list || !list->head) return NULL;
+    return list->head->data;
+}
+
+// Peek at the tail of the list without removing it
+void* LinkedList_List_peakTail(LinkedList_List *list) {
+    if (!list || !list->tail) return NULL;
+    return list->tail->data;
+}
+
+// Access a specific index in the list, optionally iterating forward or backward
+void* LinkedList_List_peakIndex(LinkedList_List *list, size_t index, bool iter_forward) {
+    if (!list || index >= list->size) return NULL;
+
+    LinkedList_Node *current = iter_forward ? list->head : list->tail;
+    size_t i = iter_forward ? 0 : list->size - 1;
+
+    while (current && i != index) {
+        current = iter_forward ? current->next : current->prev;
+        i = iter_forward ? i + 1 : i - 1;
+    }
+
+    return current ? current->data : NULL;
+}
+
+LinkedList_Node* LinkedList_List_index(LinkedList_List *list, size_t index, bool iter_forward) {
+    if (!list || index >= list->size) return NULL;
+
+    LinkedList_Node *current = iter_forward ? list->head : list->tail;
+    size_t i = iter_forward ? 0 : list->size - 1;
+
+    while (current && i != index) {
+        current = iter_forward ? current->next : current->prev;
+        i = iter_forward ? i + 1 : i - 1;
+    }
+
+    return current;
 }
