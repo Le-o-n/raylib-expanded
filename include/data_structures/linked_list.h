@@ -2,7 +2,7 @@
 #define LINKED_LIST_H
 
 #include <stddef.h> // For size_t
-
+#include <stdbool.h>
 /**
  * Node structure for a linked list.
  */
@@ -22,7 +22,7 @@ typedef struct LinkedList_List {
 } LinkedList_List;
 
 // Function prototypes for LinkedList_Node
-void LinkedList_Node_init(void *data);
+void LinkedList_Node_init(LinkedList_Node* node, void *data);
 void LinkedList_Node_unload(LinkedList_Node *node);
 
 // Function prototypes for LinkedList_List

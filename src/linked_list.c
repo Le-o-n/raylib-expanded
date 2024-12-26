@@ -1,4 +1,4 @@
-#include "linked_list.h"
+#include "data_structures/linked_list.h"
 #include <stdlib.h>
 #include <string.h>
 
