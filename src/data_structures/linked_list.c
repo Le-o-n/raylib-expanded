@@ -1,6 +1,5 @@
 #include "data_structures/linked_list.h"
-#include <stdlib.h>
-#include <string.h>
+
 
 // Initialize a node with given data
 void LinkedList_Node_init(

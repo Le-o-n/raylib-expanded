@@ -2,6 +2,8 @@
 #define LINKED_LIST_H
 
 #include <stddef.h> // For size_t
+#include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 /**
  * Node structure for a linked list.

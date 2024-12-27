@@ -22,7 +22,7 @@ OUT: list[str] = [
     ROOT, "build", "main.exe"
 ]
 C_FILES: list[list[str]] = [
-    [ROOT, "src", "*.c"]
+    [ROOT, "src", "**/*.c"]
 ]
 
 INCLUDE_PATHS: list[list[str]] = [
@@ -111,7 +111,8 @@ def main() -> None:
         c_file_glob: str = os.path.join(*c_file)
     
         c_file_paths: list[str] = glob.glob(
-            c_file_glob
+            c_file_glob,
+            recursive=True
         )  
 
         for path in c_file_paths:
