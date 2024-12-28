@@ -7,7 +7,8 @@
 typedef struct {
     void* _array;         // Pointer to the data (contiguous memory block)
     size_t capacity;      // Allocated capacity
-    size_t size;          // Current number of elements
+    size_t size;  
+    size_t elementSize;        // Current number of elements
     float growth_rate;    // Growth rate for resizing (e.g., 1.5 means 50% growth)
     float growth_threshold; // Threshold for triggering growth/shrinkage (e.g., 0.75 for 75%)
 } Array_Dynamic;
@@ -32,7 +33,7 @@ void Array_Dynamic_init(
 // Frees the memory allocated for the dynamic array.
 // Parameters:
 // - array: Pointer to the Array_Dynamic struct to deinitialize.
-void Array_Dynamic_free(Array_Dynamic* array);
+void Array_Dynamic_unload(Array_Dynamic* array);
 
 // Appends an element to the dynamic array, resizing if necessary.
 // Parameters:
@@ -61,7 +62,7 @@ bool Array_Dynamic_set(Array_Dynamic* array, size_t index, const void* element);
 // Parameters:
 // - array: Pointer to the Array_Dynamic struct.
 // Returns true if an element was removed, false otherwise (e.g., if empty).
-bool Array_Dynamic_pop(Array_Dynamic* array);
+bool Array_Dynamic_pop(Array_Dynamic* array, void* outElement);
 
 // Gets the number of elements in the array.
 // Parameters:
