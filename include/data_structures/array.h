@@ -25,7 +25,7 @@ typedef struct {
 void Array_Dynamic_init(
     Array_Dynamic* array,
     size_t capacity,
-    size_t size,
+    size_t elementSize,
     float growth_rate,
     float growth_threshold
 );

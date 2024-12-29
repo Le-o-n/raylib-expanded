@@ -25,7 +25,10 @@ void Array_Dynamic_unload(
     free(array->_array);
 }
 
-bool Array_Dynamic_append(Array_Dynamic* array, const void* element) {
+bool Array_Dynamic_append(
+    Array_Dynamic* array, 
+    const void* element
+) {
     if (array == NULL) return false;
 
     if (array->size >= (size_t)(array->capacity * array->growth_threshold)) {
@@ -36,7 +39,11 @@ bool Array_Dynamic_append(Array_Dynamic* array, const void* element) {
         array->capacity = newCapacity;
     }
 
-    memcpy((char*)array->_array + array->size * array->elementSize, element, array->elementSize);
+    memcpy(
+        (char*)array->_array + array->size * array->elementSize, 
+        element, 
+        array->elementSize
+    );
     array->size++;
     return true;
 }
