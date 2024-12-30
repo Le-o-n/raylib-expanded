@@ -20,6 +20,16 @@ void LinkedList_Node_unload(
     free(node);
 }
 
+void LinkedList_Node_unloadAll(
+    LinkedList_Node *node
+) {
+    if (!node) return;
+    if (node->data){
+        free(node->data);
+    }
+    free(node);
+}
+
 // Initialize an empty doubly linked list
 void LinkedList_List_init(
     LinkedList_List *list
@@ -39,6 +49,21 @@ void LinkedList_List_unload(
     while (current) {
         LinkedList_Node *next = current->next;
         LinkedList_Node_unload(current);
+        current = next;
+    }
+    list->head = NULL;
+    list->tail = NULL;
+    list->size = 0;
+}
+
+void LinkedList_List_unloadAll(
+    LinkedList_List *list
+) {
+    if (!list) return;
+    LinkedList_Node *current = list->head;
+    while (current) {
+        LinkedList_Node *next = current->next;
+        LinkedList_Node_unloadAll(current);
         current = next;
     }
     list->head = NULL;
@@ -122,7 +147,8 @@ void* LinkedList_List_popTail(
 
 // Pop a node from the head of the list
 void* LinkedList_List_popHead(
-    LinkedList_List *list) {
+    LinkedList_List *list
+) {
     if (!list || !list->head) return NULL;
 
     LinkedList_Node *node = list->head;

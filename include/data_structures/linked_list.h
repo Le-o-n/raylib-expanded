@@ -26,10 +26,12 @@ typedef struct LinkedList_List {
 // Function prototypes for LinkedList_Node
 void LinkedList_Node_init(LinkedList_Node* node, void *data);
 void LinkedList_Node_unload(LinkedList_Node *node);
+void LinkedList_Node_unloadAll(LinkedList_Node *node);
 
 // Function prototypes for LinkedList_List
 void LinkedList_List_init(LinkedList_List* list);
 void LinkedList_List_unload(LinkedList_List* list);
+void LinkedList_List_unloadAll(LinkedList_List* list);
 int LinkedList_List_pushHead(LinkedList_List* list, void *data);
 int LinkedList_List_pushTail(LinkedList_List* list, void *data);
 void* LinkedList_List_popTail(LinkedList_List* list);

@@ -10,7 +10,9 @@
         "initializer_list": "c",
         "type_traits": "c",
         "xstring": "c",
-        "xutility": "c"
+        "xutility": "c",
+        "memory": "c",
+        "system_error": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "cmake.ignoreCMakeListsMissing": true

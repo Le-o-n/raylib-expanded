@@ -1,9 +1,9 @@
+Hashmap:
+    - finish inplementation
+    - doublecheck that no mem leaks
+    
 Automated testing.
-Queue (maybe convert dynamic array to also have: cyclic queue enqueue and dequeue - center the index fro mthe start of the queue?)
 
-Linked list
-Hashmap
-Dynamic Array
 B Search Tree
 Heap
 Quad tree
