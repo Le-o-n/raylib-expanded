@@ -1,8 +1,25 @@
 //#include "my_game.h"
 #include "data_structures/linked_list.h"
 #include "data_structures/array.h"
+#include "data_structures/hashmap.h"
 #include "raylib_wrapper.h"
 #include <stdio.h>
+
+size_t Main_stringHash(void* string_ptr) {
+    char* char_string = (char*)string_ptr;
+    char* cur_char = char_string;
+    size_t hash = 0;
+    size_t prime = 31; // A small prime number
+    size_t length = 0;
+
+    while (*cur_char != '\0') {
+        hash = hash * prime + (size_t)(*cur_char);
+        cur_char++;
+        length++;
+    }
+
+    return hash;
+}
 
 int main(void)
 {
@@ -10,46 +27,13 @@ int main(void)
     vec2.x = 100.0f;
     vec2.y = 200.0f;
 
-    Array_Dynamic array;
+    char* my_string = "Hi there\0";
 
-    Array_Dynamic_init(
-        &array,
-        (size_t)8,
-        sizeof(Raylib_Vector2),
-        2.0f,
-        0.75f
-    );
+    Main_stringHash((void*)my_string);
 
-    for (size_t i=0; i<100; i++){
-        printf("%d - %d\n", i, array.capacity);
-        Array_Dynamic_append(
-            &array,
-            (const void*)&vec2
-        );
-    }
-
-    Raylib_Vector2 outVec;
-
-    Array_Dynamic_get(&array, 0, &outVec);
-
-    printf("%f", outVec.x);
-
-    
-    outVec.x = 0.0f;
-    outVec.y = 0.0f;
-
-    printf("\n%d - %f", array.size, outVec.x);
-
-    Array_Dynamic_pop(&array, &outVec);
-
-    printf("\n%d - %f", array.size, outVec.x);
-
-
-
-    Array_Dynamic_unload(&array);
-    
-
-    //MyGame_run();
+    //HashMap_Map hash_map;
+    //hash_map = HashMap_Map_init(
+    //    &hash_map,)
     
     
     return 0;

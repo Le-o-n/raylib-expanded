@@ -40,10 +40,17 @@ void HashMap_KeyValuePair_unloadAll(
 // Initializes the hashmap
 void HashMap_Map_init(
     HashMap_Map* map, 
-    size_t (*hash_function)(void* x), 
+    size_t (*hash_function)(
+        void* key
+    ),
+    size_t (*comparison_function)(
+        void* key01, 
+        void* key02
+    ),
     size_t capacity
 ){
     map->hash_function = hash_function;
+    map->comparison_function = comparison_function;
     map->capacity = capacity;
     map->_array = (LinkedList_List*)malloc(
         sizeof(LinkedList_List) * capacity
@@ -92,6 +99,32 @@ void* HashMap_Map_get(
     void* key
 ){
 
+    size_t key_hash = map->hash_function(key);
+    key_hash = key_hash % map->capacity;
+
+    LinkedList_List hit_linked_list = map->_array[key_hash];
+
+    LinkedList_Node* cur_node = hit_linked_list.head;
+
+    while (cur_node != 0){
+        
+        HashMap_KeyValuePair* key_value_pair;
+        key_value_pair = (HashMap_KeyValuePair*)cur_node->data;
+
+        size_t key_comparison = map->comparison_function(
+            key, 
+            key_value_pair->key
+        );
+
+        if (key_comparison == 0){ // match
+            return key_value_pair->value;
+        }
+
+
+        cur_node = cur_node->next;
+    }
+
+    return 0;
 }
 
 // Deletes a key-value pair from the hashmap

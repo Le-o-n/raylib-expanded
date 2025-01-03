@@ -1,7 +1,7 @@
 #ifndef HASHMAP_H
 #define HASHMAP_H
 
-#include <stdlib. h>
+#include <stdlib.h>
 #include <stddef.h> // For size_t
 #include "linked_list.h" // Assuming you have a linked list implementation
 
@@ -32,17 +32,29 @@ void HashMap_KeyValuePair_unloadAll(
 
 // HashMap namespace
 typedef struct {
-    size_t (*hash_function)(void* x); // Pointer to a hash function
+    size_t (*hash_function)(
+        void* key
+    ); // Pointer to a hash function
+    size_t (*comparison_function)(
+        void* key01, 
+        void* key02
+    ); // Pointer to a comparison function
+    
     size_t capacity;                   // Capacity of the hashmap
     LinkedList_List* _array;           // Array of linked lists for collision resolution
 } HashMap_Map;
 
-// Function prototypes
 
 // Initializes the hashmap
 void HashMap_Map_init(
     HashMap_Map* map, 
-    size_t (*hash_function)(void* x), 
+    size_t (*hash_function)(
+        void* key
+    ), 
+    size_t (*comparison_function)(
+        void* key01, 
+        void* key02
+    ), 
     size_t initial_capacity
 );
 
