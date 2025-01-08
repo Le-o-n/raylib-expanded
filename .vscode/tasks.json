@@ -1,0 +1,50 @@
+{
+    "tasks": [
+        {
+            "label": "run-build-script-verbose", // Matches the preLaunchTask in launch.json
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "./shell/build.py",
+                "--verbose",
+                
+            ],
+            "problemMatcher": [], // Optional: Define this if your Python script generates errors/warnings
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "run-build-script-verbose-debug", // Matches the preLaunchTask in launch.json
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "./shell/build.py",
+                "--verbose",
+                "--debug",
+                "--no-opt"
+            ],
+            "problemMatcher": [], // Optional: Define this if your Python script generates errors/warnings
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        
+        {
+            "label": "run-build-script", // Matches the preLaunchTask in launch.json
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "./shell/build.py"
+            ],
+            "problemMatcher": [], // Optional: Define this if your Python script generates errors/warnings
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        }  
+    ],
+    "version": "2.0.0"
+}
