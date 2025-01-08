@@ -35,7 +35,7 @@ typedef struct {
     size_t (*hash_function)(
         void* key
     ); // Pointer to a hash function
-    size_t (*comparison_function)(
+    int (*comparison_function)(
         void* key01, 
         void* key02
     ); // Pointer to a comparison function
@@ -51,7 +51,7 @@ void HashMap_Map_init(
     size_t (*hash_function)(
         void* key
     ), 
-    size_t (*comparison_function)(
+    int (*comparison_function)(
         void* key01, 
         void* key02
     ), 

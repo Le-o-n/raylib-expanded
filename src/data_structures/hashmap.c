@@ -43,7 +43,7 @@ void HashMap_Map_init(
     size_t (*hash_function)(
         void* key
     ),
-    size_t (*comparison_function)(
+    int (*comparison_function)(
         void* key01, 
         void* key02
     ),
@@ -73,7 +73,7 @@ void HashMap_Map_insert(
     size_t hash_val = map->hash_function(key);
     hash_val = hash_val % map->capacity;
 
-    LinkedList_List hit_linked_list = map->_array[hash_val];
+    LinkedList_List *hit_linked_list = &map->_array[hash_val];
 
     HashMap_KeyValuePair* key_value_pair;
     key_value_pair = (HashMap_KeyValuePair*)malloc(
@@ -87,7 +87,7 @@ void HashMap_Map_insert(
     );
 
     LinkedList_List_pushHead(
-        &hit_linked_list,
+        hit_linked_list,
         (void*)key_value_pair
     );
     
@@ -132,7 +132,7 @@ void HashMap_Map_delete(
     HashMap_Map* map, 
     void* key
 ){
-
+    
 }
 
 // Frees the hashmap and its resources

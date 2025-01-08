@@ -2,24 +2,11 @@
 #include "data_structures/linked_list.h"
 #include "data_structures/array.h"
 #include "data_structures/hashmap.h"
+#include "hashing/string.h"
+#include "compare/string.h"
 #include "raylib_wrapper.h"
 #include <stdio.h>
 
-size_t Main_stringHash(void* string_ptr) {
-    char* char_string = (char*)string_ptr;
-    char* cur_char = char_string;
-    size_t hash = 0;
-    size_t prime = 31; // A small prime number
-    size_t length = 0;
-
-    while (*cur_char != '\0') {
-        hash = hash * prime + (size_t)(*cur_char);
-        cur_char++;
-        length++;
-    }
-
-    return hash;
-}
 
 int main(void)
 {
@@ -27,14 +14,58 @@ int main(void)
     vec2.x = 100.0f;
     vec2.y = 200.0f;
 
-    char* my_string = "Hi there\0";
+    HashMap_Map hashmap;
 
-    Main_stringHash((void*)my_string);
+    HashMap_Map_init(
+        &hashmap, 
+        &Hashing_stringSum,
+        &Compare_string,
+        1
+    );
 
-    //HashMap_Map hash_map;
-    //hash_map = HashMap_Map_init(
-    //    &hash_map,)
-    
-    
+    HashMap_Map_insert(
+        &hashmap,
+        (void*)"SomeKey1\0",
+        (void*)"SomeValue1\0"
+    );
+
+    HashMap_Map_insert(
+        &hashmap,
+        (void*)"SomeKey2\0",
+        (void*)"SomeValue2\0"
+    );
+
+    HashMap_Map_insert(
+        &hashmap,
+        (void*)"SomeKey3\0",
+        (void*)"SomeValue3\0"
+    );
+
+    //LinkedList_List* linked_list = hashmap._array + 1;
+    void* data1 = HashMap_Map_get(
+        &hashmap,
+        (void*)"SomeKey1\0"
+    );
+
+    void* data2 = HashMap_Map_get(
+        &hashmap,
+        (void*)"SomeKey2\0"
+    );
+
+    void* data3 = HashMap_Map_get(
+        &hashmap,
+        (void*)"SomeKey3\0"
+    );
+
+    HashMap_Map_delete(
+        &hashmap,
+        (void*)"SomeKey2\0",
+    );
+
+    void* data2_removed = HashMap_Map_get(
+        &hashmap,
+        (void*)"SomeKey2\0"
+    ); // should be 0
+
     return 0;
 }

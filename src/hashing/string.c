@@ -1,7 +1,4 @@
-#ifndef HASH_STRING_H
-#define HASH_STRING_H
-
-#include <stddef.h>
+#include "hashing/string.h"
 
 size_t Hashing_stringSum(void* string_ptr) {
     char* char_string = (char*)string_ptr;
@@ -18,6 +15,3 @@ size_t Hashing_stringSum(void* string_ptr) {
 
     return hash;
 }
-
-
-#endif 
