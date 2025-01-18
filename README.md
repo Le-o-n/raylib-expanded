@@ -1,3 +1,7 @@
+# Disclaimer
+
+This project is a work in progress and is currently not in a state to use
+
 # Raylib Expanded
 
 Welcome to **Raylib Expanded**! This repository builds upon the [Raylib](https://www.raylib.com/) library, offering additional tools, utilities, and features to enhance your game development workflow.
