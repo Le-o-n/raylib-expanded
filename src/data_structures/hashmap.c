@@ -2,16 +2,23 @@
 #include "data_structures/hashmap.h"
 
 
-int HashMap_noFree(void* data){
+int HashMap_dataNoFree(void* data){
+    if (!data){
+        return 1;
+    }
     return 0;
 }
 
-int HashMap_free(void* data){
+int HashMap_dataFree(void* data){
+    if (!data){
+        return 1;
+    }
+
     free(data);
     return 0;
 }
 
-int HashMap_equals(
+int HashMap_keyEquals(
     void* key01, 
     void* key02
 ){
@@ -32,15 +39,15 @@ int HashMap_KeyValuePair_init(
     }
 
     if (!key_free_function){
-        key_free_function = &HashMap_noFree;
+        key_free_function = &HashMap_dataNoFree;
     }
 
     if (!value_free_function){
-        value_free_function = &HashMap_noFree;
+        value_free_function = &HashMap_dataNoFree;
     }
 
     if (!key_comparator_function){
-        key_comparator_function = &HashMap_equals;
+        key_comparator_function = &HashMap_keyEquals;
     }
 
 
@@ -52,17 +59,8 @@ int HashMap_KeyValuePair_init(
     return 0; //success
 }
 
-int HashMap_KeyValuePair_delete(
-    HashMap_KeyValuePair* pair
-){
-    if (!pair){
-        return 1; //fail
-    }
-    free(pair);
-    return 0;
-}
 
-int HashMap_KeyValuePair_deleteWithData(
+int HashMap_KeyValuePair_delete(
     HashMap_KeyValuePair* pair
 ){
     if (!pair){
@@ -85,10 +83,7 @@ int HashMap_KeyValuePair_deleteWithData(
         return 5; //fail
     }
     
-    if (HashMap_KeyValuePair_delete(pair)){
-        return 6; //fail
-    }
-
+    free(pair);
     return 0; //sucess
 }
 
@@ -96,14 +91,6 @@ int HashMap_KeyValuePair_deleteGeneric(
     void* pair
 ){
     return HashMap_KeyValuePair_delete(
-        (HashMap_KeyValuePair*)pair
-    );
-}
-
-int HashMap_KeyValuePair_deleteWithDataGeneric(
-    void* pair
-){
-    return HashMap_KeyValuePair_deleteWithData(
         (HashMap_KeyValuePair*)pair
     );
 }
@@ -145,10 +132,10 @@ int HashMap_Map_init(
     );
 
     if (!key_free_function){
-        key_free_function = &HashMap_noFree;
+        key_free_function = &HashMap_dataNoFree;
     }
     if (!value_free_function){
-        value_free_function = &HashMap_noFree;
+        value_free_function = &HashMap_dataNoFree;
     }
 
     map->key_free_function = key_free_function;
@@ -284,35 +271,6 @@ int HashMap_Map_deleteFrom(
 
 }
 
-int HashMap_Map_deleteFromWithData(
-    HashMap_Map* map, 
-    void* key
-){
-    if (!map){
-        return 1; //fail
-    }
-
-    if (!map->hash_function){
-        return 2; //fail
-    }
-
-    size_t hash_val = map->hash_function(key);
-    size_t linked_list_index = hash_val % map->capacity;
-
-    LinkedList_List *hit_linked_list = &map->_array[linked_list_index];
-
-    if (LinkedList_List_deleteFromWithData(
-        hit_linked_list, 
-        key, 
-        &HashMap_KeyValuePair_comparatorGeneric
-    )){
-        return 2; //fail
-    }
-
-    return 0; //success
-
-}
-
 
 // Frees the hashmap and its resources
 int HashMap_Map_delete(HashMap_Map* map) {
@@ -325,29 +283,6 @@ int HashMap_Map_delete(HashMap_Map* map) {
         LinkedList_List* current_list = &map->_array[i];
         
         if (LinkedList_List_delete(current_list)){
-            return 2; //fail
-        }
-
-    }
-
-    free(map->_array); // Free the array of linked lists
-    map->_array = NULL; // Avoid dangling pointer
-
-    free(map);
-
-    return 0;
-}
-
-int HashMap_Map_deleteWithData(HashMap_Map* map) {
-    
-    if (!map){
-        return 1; //fail
-    }
-    
-    for (size_t i = 0; i < map->capacity; i++) {
-        LinkedList_List* current_list = &map->_array[i];
-        
-        if (LinkedList_List_deleteWithData(current_list)){
             return 2; //fail
         }
 

@@ -25,13 +25,12 @@ typedef struct LinkedList_List {
     size_t size;
 } LinkedList_List;
 
-int LinkedList_genericFree(void* data); // used if data is just some contiguous memory
-int LinkedList_noFree(void* data);      // used for primatives
+int LinkedList_dataFree(void* data); // used if data is just some contiguous memory
+int LinkedList_dataNoFree(void* data);      // used for primatives
 
 // Function prototypes for LinkedList_Node
 int LinkedList_Node_init(LinkedList_Node* node, int (*data_free_function)(void*), void *data);
 int LinkedList_Node_delete(LinkedList_Node *node);
-int LinkedList_Node_deleteWithData(LinkedList_Node *node);
 
 // Function prototypes for LinkedList_List
 int LinkedList_List_init(LinkedList_List* list, int (*data_free_function)(void*));

@@ -16,9 +16,9 @@ typedef struct{
     int (*value_free_function)(void* value);
 } HashMap_KeyValuePair;
 
-int HashMap_noFree(void* data);
-int HashMap_free(void* data);
-int HashMap_equals(void* key01, void* key02);
+int HashMap_dataNoFree(void* data);
+int HashMap_dataFree(void* data);
+int HashMap_keyEquals(void* key01, void* key02);
 
 int HashMap_KeyValuePair_init(
     HashMap_KeyValuePair* pair,
@@ -29,9 +29,7 @@ int HashMap_KeyValuePair_init(
     int (*value_free_function)(void* value)
 );
 int HashMap_KeyValuePair_delete(HashMap_KeyValuePair* pair);
-int HashMap_KeyValuePair_deleteWithData(HashMap_KeyValuePair* pair);
 int HashMap_KeyValuePair_deleteGeneric(void* pair);
-int HashMap_KeyValuePair_deleteWithDataGeneric(void* pair);
 int HashMap_KeyValuePair_comparator(HashMap_KeyValuePair* pair, void* key);
 int HashMap_KeyValuePair_comparatorGeneric(void* pair,void* key);
 
@@ -56,7 +54,6 @@ int HashMap_Map_init(
 int HashMap_Map_insert(HashMap_Map* map, void* key, void* value);
 void* HashMap_Map_get(HashMap_Map* map, void* key);
 int HashMap_Map_deleteFrom(HashMap_Map* map, void* key);
-int HashMap_Map_deleteFromWithData(HashMap_Map* map, void* key);
 int HashMap_Map_delete(HashMap_Map* map);
-int HashMap_Map_deleteWithData(HashMap_Map* map);
+
 #endif // HASHMAP_H

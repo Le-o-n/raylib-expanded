@@ -20,8 +20,8 @@ int main(void)
         &hashmap, 
         &Hashing_stringSum,
         &Compare_string,
-        &HashMap_noFree,
-        &HashMap_noFree,
+        &HashMap_dataNoFree,
+        &HashMap_dataNoFree,
         1
     );
 

@@ -1,11 +1,18 @@
 #include "data_structures/linked_list.h"
 
-int LinkedList_genericFree(void* data){
+int LinkedList_dataFree(void* data){
+    if (!data){
+        return 1;
+    }
     free(data);
     return 0;
 }
 
-int LinkedList_noFree(void* data){
+int LinkedList_dataNoFree(void* data){
+    if (!data){
+        return 1;
+    }
+
     return 0;
 }
 
@@ -20,7 +27,7 @@ int LinkedList_Node_init(
     }
 
     if (!data_free_function){
-        data_free_function = &LinkedList_noFree;
+        data_free_function = &LinkedList_dataNoFree;
     }
 
     node->data = data;
@@ -30,20 +37,28 @@ int LinkedList_Node_init(
     return 0; //success
 }
 
-// Unload a node (free memory if applicable)
 int LinkedList_Node_delete(
     LinkedList_Node *node
 ) {
+
     if (!node){ 
         return 1; //fail
     }
 
+    if (!node->data){
+        return 2; //fail
+    }
+
+    if (!node->data_free_function){
+        return 3; //fail
+    } 
+
+    if (node->data_free_function(node->data)){
+        return 4; //fail
+    }
+
     LinkedList_Node* prev_node = node->prev;
     LinkedList_Node* next_node = node->next;
-
-    if (LinkedList_Node_delete(node)){
-        return 1; //fail
-    }
 
     if (prev_node){
         prev_node->next = next_node;
@@ -54,28 +69,6 @@ int LinkedList_Node_delete(
     }
 
     free(node);
-    return 0; //success
-} 
-
-int LinkedList_Node_deleteWithData(
-    LinkedList_Node *node
-) {
-
-    if (!node->data){
-        return 1; //fail
-    }
-
-    if (!node->data_free_function){
-        return 2; //fail
-    } 
-
-    if (node->data_free_function(node->data)){
-        return 3; //fail
-    }
-
-    if (LinkedList_Node_delete(node)){
-        return 4; //fail
-    }
     return 0; //success
 }
 
@@ -95,21 +88,6 @@ int LinkedList_Node_remove(
     return 0; //success
 }
 
-int LinkedList_Node_removeUnload(
-    LinkedList_Node *node
-){
-    LinkedList_Node* prev_node = node->prev;
-    LinkedList_Node* next_node = node->next;
-
-    if (LinkedList_Node_delete(node)){
-        return 1; //fail
-    }
-
-    prev_node->next = next_node;
-    next_node->prev = prev_node;
-
-    return 0; //success
-}
 
 int LinkedList_List_init(
     LinkedList_List* list, 
@@ -120,7 +98,7 @@ int LinkedList_List_init(
     }
 
     if (!data_free_function){
-        data_free_function = &LinkedList_noFree;
+        data_free_function = &LinkedList_dataNoFree;
     }
 
     list->head = NULL;
@@ -162,7 +140,7 @@ int LinkedList_List_deleteWithData(
     LinkedList_Node *current = list->head;
     while (current) {
         LinkedList_Node *next = current->next;
-        if (LinkedList_Node_deleteWithData(current)){
+        if (LinkedList_Node_delete(current)){
             return 2;  //fail
         }
         current = next;
@@ -381,7 +359,7 @@ int LinkedList_List_deleteFromWithData(
     while (current) {
         if (comparator(current->data, data) == 0) {
 
-            if (LinkedList_Node_deleteWithData(current)){
+            if (LinkedList_Node_delete(current)){
                 return 2; //fail
             }
             return 0;
