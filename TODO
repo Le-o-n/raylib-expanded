@@ -1,7 +1,12 @@
 ====== Now ===========
 Sound Manager
-    - Hashmap to store the sounds
+    - Hashmap to store the sounds x
+    - Sound struct for wrapping the raylib sounds
+      - delete needs to call raylibs sound unload
+      - init should have path passed
+      - init func will init the raylib sound struct
     - an asset/sounds folder
+    - soundmanager just needs a path to the asset dir then recursively saerches
     - auto python creation of defines
         - sub folders are preprended to name
     

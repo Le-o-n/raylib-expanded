@@ -106,6 +106,8 @@
 #define Raylib_Sound_play PlaySound
 #define Raylib_Sound_stop StopSound
 #define Raylib_Sound_setVolume SetSoundVolume
+#define Raylib_Sound_initAudioDevice InitAudioDevice
+#define Raylib_Sound_closeAudioDevice CloseAudioDevice
 
 // Example namespace: Raylib_Texture_loadTexture
 // Aliases for texture and model functions

@@ -37,5 +37,5 @@ void MyGame_run(){
     UI_Context_unload(&ui);
     GameWindow_Context_unload(&game_window);
     GameState_Context_unload(&game_state);
-    SoundManager_Context_unload(&sound_manager);
+    SoundManager_Context_delete(&sound_manager);
 }
