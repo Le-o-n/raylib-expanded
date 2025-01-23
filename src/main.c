@@ -20,6 +20,8 @@ int main(void)
         &hashmap, 
         &Hashing_stringSum,
         &Compare_string,
+        &HashMap_dataNoFree,
+        &HashMap_dataNoFree,
         1
     );
 
@@ -57,9 +59,9 @@ int main(void)
         (void*)"SomeKey3\0"
     );
 
-    HashMap_Map_delete(
+    HashMap_Map_deleteFrom( // Error Here
         &hashmap,
-        (void*)"SomeKey2\0",
+        (void*)"SomeKey2\0"
     );
 
     void* data2_removed = HashMap_Map_get(

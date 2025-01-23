@@ -11,75 +11,49 @@
 typedef struct{
     void* key;
     void* value;
+    int (*key_comparator_function)(void* key1, void* key2);
+    int (*key_free_function)(void* key);
+    int (*value_free_function)(void* value);
 } HashMap_KeyValuePair;
 
-void HashMap_KeyValuePair_init(
+int HashMap_dataNoFree(void* data);
+int HashMap_dataFree(void* data);
+int HashMap_keyEquals(void* key01, void* key02);
+
+int HashMap_KeyValuePair_init(
     HashMap_KeyValuePair* pair,
     void* key,
-    void* value
+    void* value,
+    int (*key_comparator_function)(void* key01, void* key02),
+    int (*key_free_function)(void* key),
+    int (*value_free_function)(void* value)
 );
-
-void HashMap_KeyValuePair_unload(
-    HashMap_KeyValuePair* pair
-);
-
-void HashMap_KeyValuePair_unloadAll(
-    HashMap_KeyValuePair* pair
-);
+int HashMap_KeyValuePair_delete(HashMap_KeyValuePair* pair);
+int HashMap_KeyValuePair_deleteGeneric(void* pair);
+int HashMap_KeyValuePair_comparator(HashMap_KeyValuePair* pair, void* key);
+int HashMap_KeyValuePair_comparatorGeneric(void* pair,void* key);
 
 
-
-
-// HashMap namespace
 typedef struct {
-    size_t (*hash_function)(
-        void* key
-    ); // Pointer to a hash function
-    int (*comparison_function)(
-        void* key01, 
-        void* key02
-    ); // Pointer to a comparison function
-    
+    size_t (*hash_function)(void* key); // Pointer to a hash function
+    int (*key_comparison_function)(void* key01, void* key02); // Pointer to a comparison function
+    int (*key_free_function)(void*);
+    int (*value_free_function)(void*);
     size_t capacity;                   // Capacity of the hashmap
     LinkedList_List* _array;           // Array of linked lists for collision resolution
 } HashMap_Map;
 
-
-// Initializes the hashmap
-void HashMap_Map_init(
+int HashMap_Map_init(
     HashMap_Map* map, 
-    size_t (*hash_function)(
-        void* key
-    ), 
-    int (*comparison_function)(
-        void* key01, 
-        void* key02
-    ), 
+    size_t (*hash_function)(void* key), 
+    int (*key_comparison_function)(void* key01, void* key02), 
+    int (*key_free_function)(void*),
+    int (*value_free_function)(void*),
     size_t initial_capacity
 );
-
-// Inserts a key-value pair into the hashmap
-void HashMap_Map_insert(
-    HashMap_Map* map, 
-    void* key, 
-    void* value
-);
-
-// Retrieves a value by key from the hashmap
-void* HashMap_Map_get(
-    HashMap_Map* map, 
-    void* key
-);
-
-// Deletes a key-value pair from the hashmap
-void HashMap_Map_delete(
-    HashMap_Map* map, 
-    void* key
-);
-
-// Frees the hashmap and its resources
-void HashMap_Map_unload(
-    HashMap_Map* map
-);
+int HashMap_Map_insert(HashMap_Map* map, void* key, void* value);
+void* HashMap_Map_get(HashMap_Map* map, void* key);
+int HashMap_Map_deleteFrom(HashMap_Map* map, void* key);
+int HashMap_Map_delete(HashMap_Map* map);
 
 #endif // HASHMAP_H
