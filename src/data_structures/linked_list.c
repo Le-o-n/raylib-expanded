@@ -1,87 +1,176 @@
 #include "data_structures/linked_list.h"
 
+int LinkedList_dataFree(void* data){
+    if (!data){
+        return 1;
+    }
+    free(data);
+    return 0;
+}
+
+int LinkedList_dataNoFree(void* data){
+    if (!data){
+        return 1;
+    }
+
+    return 0;
+}
 
 // Initialize a node with given data
-void LinkedList_Node_init(
-    LinkedList_Node *node, 
+int LinkedList_Node_init(
+    LinkedList_Node* node, 
+    int (*data_free_function)(void*),
     void *data
 ) {
-    if (!node) return;
+    if (!node){ 
+        return 1; //fail
+    }
+
+    if (!data_free_function){
+        data_free_function = &LinkedList_dataNoFree;
+    }
+
     node->data = data;
+    node->data_free_function = data_free_function;
     node->next = NULL;
     node->prev = NULL;
+    return 0; //success
 }
 
-// Unload a node (free memory if applicable)
-void LinkedList_Node_unload(
+int LinkedList_Node_delete(
     LinkedList_Node *node
 ) {
-    if (!node) return;
-    free(node);
-}
 
-void LinkedList_Node_unloadAll(
-    LinkedList_Node *node
-) {
-    if (!node) return;
-    if (node->data){
-        free(node->data);
+    if (!node){ 
+        return 1; //fail
     }
+
+    if (!node->data){
+        return 2; //fail
+    }
+
+    if (!node->data_free_function){
+        return 3; //fail
+    } 
+
+    if (node->data_free_function(node->data)){
+        return 4; //fail
+    }
+
+    LinkedList_Node* prev_node = node->prev;
+    LinkedList_Node* next_node = node->next;
+
+    if (prev_node){
+        prev_node->next = next_node;
+    }
+
+    if (next_node){
+        next_node->prev = prev_node;
+    }
+
     free(node);
+    return 0; //success
 }
 
-// Initialize an empty doubly linked list
-void LinkedList_List_init(
-    LinkedList_List *list
+int LinkedList_Node_remove(
+    LinkedList_Node *node
+){
+    LinkedList_Node* prev_node = node->prev;
+    LinkedList_Node* next_node = node->next;
+
+    if (LinkedList_Node_delete(node)){
+        return 1; //fail
+    }
+
+    prev_node->next = next_node;
+    next_node->prev = prev_node;
+
+    return 0; //success
+}
+
+
+int LinkedList_List_init(
+    LinkedList_List* list, 
+    int (*data_free_function)(void*)
 ) {
-    if (!list) return;
+    if (!list) {
+        return 1; //fail
+    }
+
+    if (!data_free_function){
+        data_free_function = &LinkedList_dataNoFree;
+    }
+
     list->head = NULL;
     list->tail = NULL;
+    list->data_free_function = data_free_function;
     list->size = 0;
+
+    return 0; //success
 }
 
-// Unload a doubly linked list (free all nodes)
-void LinkedList_List_unload(
+int LinkedList_List_delete(
     LinkedList_List *list
 ) {
-    if (!list) return;
+    if (!list) {
+        return 1; //fail
+    }
     LinkedList_Node *current = list->head;
     while (current) {
         LinkedList_Node *next = current->next;
-        LinkedList_Node_unload(current);
+        if (LinkedList_Node_delete(current)){
+            return 2; //fail
+        }
         current = next;
     }
     list->head = NULL;
     list->tail = NULL;
+    list->data_free_function = NULL;
     list->size = 0;
+
+    return 0; //success
 }
 
-void LinkedList_List_unloadAll(
+int LinkedList_List_deleteWithData(
     LinkedList_List *list
 ) {
-    if (!list) return;
+    if (!list){ 
+        return 1; //fail
+    }
     LinkedList_Node *current = list->head;
     while (current) {
         LinkedList_Node *next = current->next;
-        LinkedList_Node_unloadAll(current);
+        if (LinkedList_Node_delete(current)){
+            return 2;  //fail
+        }
         current = next;
     }
     list->head = NULL;
     list->tail = NULL;
+    list->data_free_function = NULL;
     list->size = 0;
+    return 0; //success
 }
+
+
 
 // Insert a new node at the head of the list
 int LinkedList_List_pushHead(
     LinkedList_List *list, 
     void *data
 ) {
-    if (!list) return -1;
+    if (!list){ 
+        return 1;  //fail
+    }
 
     LinkedList_Node *new_node = (LinkedList_Node *)malloc(sizeof(LinkedList_Node));
-    if (!new_node) return -1;
+    if (!new_node) {
+        return 2; //fail
+    }
 
-    LinkedList_Node_init(new_node, data);
+    if (LinkedList_Node_init(new_node, list->data_free_function, data)){
+        return 3; //fail
+    }
 
     new_node->next = list->head;
     if (list->head) {
@@ -94,7 +183,7 @@ int LinkedList_List_pushHead(
     }
 
     list->size++;
-    return 0;
+    return 0; //success
 }
 
 // Insert a new node at the tail of the list
@@ -102,13 +191,18 @@ int LinkedList_List_pushTail(
     LinkedList_List *list, 
     void *data
 ) {
-    if (!list) return -1;
+    if (!list) {
+        return 1; //fail
+    }
 
     LinkedList_Node *new_node = (LinkedList_Node *)malloc(sizeof(LinkedList_Node));
-    if (!new_node) return -1;
+    if (!new_node){
+        return 2; //fail
+    }
 
-    LinkedList_Node_init(new_node, data);
-
+    if (LinkedList_Node_init(new_node, list->data_free_function, data )){
+        return 3; //fail
+    }
     new_node->prev = list->tail;
     if (list->tail) {
         list->tail->next = new_node;
@@ -120,14 +214,16 @@ int LinkedList_List_pushTail(
     }
 
     list->size++;
-    return 0;
+    return 0; //success
 }
 
 // Pop a node from the tail of the list
 void* LinkedList_List_popTail(
     LinkedList_List *list
 ) {
-    if (!list || !list->tail) return NULL;
+    if (!list || !list->tail) {
+        return NULL;
+    }
 
     LinkedList_Node *node = list->tail;
     void *data = node->data;
@@ -139,7 +235,9 @@ void* LinkedList_List_popTail(
         list->head = NULL;
     }
 
-    LinkedList_Node_unload(node);
+    if (LinkedList_Node_delete(node)){
+        return NULL; //fail
+    }
     list->size--;
 
     return data;
@@ -149,7 +247,9 @@ void* LinkedList_List_popTail(
 void* LinkedList_List_popHead(
     LinkedList_List *list
 ) {
-    if (!list || !list->head) return NULL;
+    if (!list || !list->head){
+        return NULL;
+    }
 
     LinkedList_Node *node = list->head;
     void *data = node->data;
@@ -161,14 +261,16 @@ void* LinkedList_List_popHead(
         list->tail = NULL;
     }
 
-    LinkedList_Node_unload(node);
+    if (LinkedList_Node_delete(node)){
+        return NULL; //fail
+    }
     list->size--;
 
     return data;
 }
 
 // Find a node with data matching the comparator function
-LinkedList_Node* LinkedList_List_find(
+LinkedList_Node* LinkedList_List_findNode(
     LinkedList_List *list, 
     void *data, 
     int (*comparator)(void *, void *)
@@ -185,6 +287,89 @@ LinkedList_Node* LinkedList_List_find(
 
     return NULL;
 }
+void* LinkedList_List_find(
+    LinkedList_List* list, 
+    void *data, 
+    int (*comparator)(void *, void *)
+){
+    if (!list || !comparator) return NULL;
+
+    LinkedList_Node *current = list->head;
+    while (current) {
+        if (comparator(current->data, data) == 0) {
+            return current->data;
+        }
+        current = current->next;
+    }
+
+    return NULL;
+}
+void* LinkedList_List_pop(
+    LinkedList_List* list, 
+    void *data, 
+    int (*comparator)(void *, void *)
+){
+    if (!list || !comparator) return NULL;
+
+    LinkedList_Node *current = list->head;
+    while (current) {
+        if (comparator(current->data, data) == 0) {
+
+            if (LinkedList_Node_delete(current)){
+                return NULL; //fail
+            }
+            return current->data;
+        }
+        current = current->next;
+    }
+
+    return NULL;
+}
+
+int LinkedList_List_deleteFrom(
+    LinkedList_List* list, 
+    void *data, 
+    int (*comparator)(void *other, void *data)
+){
+    if (!list || !comparator) return 1;
+
+    LinkedList_Node *current = list->head;
+    while (current) {
+        if (comparator(current->data, data) == 0) {
+
+            if (LinkedList_Node_delete(current)){
+                return 2; //fail
+            }
+            return 0;
+        }
+        current = current->next;
+    }
+
+    return -1;
+}
+
+int LinkedList_List_deleteFromWithData(
+    LinkedList_List* list, 
+    void *data, 
+    int (*comparator)(void *, void *)
+){
+    if (!list || !comparator) return 1;
+
+    LinkedList_Node *current = list->head;
+    while (current) {
+        if (comparator(current->data, data) == 0) {
+
+            if (LinkedList_Node_delete(current)){
+                return 2; //fail
+            }
+            return 0;
+        }
+        current = current->next;
+    }
+
+    return -1;
+}
+
 
 // Get the size of the list
 size_t LinkedList_List_size(
@@ -195,19 +380,27 @@ size_t LinkedList_List_size(
 }
 
 // Peek at the head of the list without removing it
-void* LinkedList_List_peakHead(LinkedList_List *list) {
+void* LinkedList_List_peakHead(
+    LinkedList_List *list
+) {
     if (!list || !list->head) return NULL;
     return list->head->data;
 }
 
 // Peek at the tail of the list without removing it
-void* LinkedList_List_peakTail(LinkedList_List *list) {
+void* LinkedList_List_peakTail(
+    LinkedList_List *list
+) {
     if (!list || !list->tail) return NULL;
     return list->tail->data;
 }
 
 // Access a specific index in the list, optionally iterating forward or backward
-void* LinkedList_List_peakIndex(LinkedList_List *list, size_t index, bool iter_forward) {
+void* LinkedList_List_peakIndex(
+    LinkedList_List *list, 
+    size_t index, 
+    bool iter_forward
+) {
     if (!list || index >= list->size) return NULL;
 
     LinkedList_Node *current = iter_forward ? list->head : list->tail;
@@ -221,7 +414,11 @@ void* LinkedList_List_peakIndex(LinkedList_List *list, size_t index, bool iter_f
     return current ? current->data : NULL;
 }
 
-LinkedList_Node* LinkedList_List_index(LinkedList_List *list, size_t index, bool iter_forward) {
+LinkedList_Node* LinkedList_List_index(
+    LinkedList_List *list, 
+    size_t index, 
+    bool iter_forward
+) {
     if (!list || index >= list->size) return NULL;
 
     LinkedList_Node *current = iter_forward ? list->head : list->tail;
