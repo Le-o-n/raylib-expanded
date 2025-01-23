@@ -1,3 +1,12 @@
+====== Now ===========
+Sound Manager
+    - Hashmap to store the sounds
+    - an asset/sounds folder
+    - auto python creation of defines
+        - sub folders are preprended to name
+    
+
+====== Later =========
 B Search Tree
 Heap
 Quad tree
