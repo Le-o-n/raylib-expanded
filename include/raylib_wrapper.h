@@ -101,6 +101,7 @@
 
 // Example namespace: Raylib_Sound_loadSound
 // Aliases for audio functions
+#define Raylib_Sound Sound
 #define Raylib_Sound_load LoadSound
 #define Raylib_Sound_unload UnloadSound
 #define Raylib_Sound_play PlaySound

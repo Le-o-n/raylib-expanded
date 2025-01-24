@@ -1,6 +1,6 @@
 ====== Now ===========
 Sound Manager
-    - Hashmap to store the sounds x
+
     - Sound struct for wrapping the raylib sounds
       - delete needs to call raylibs sound unload
       - init should have path passed
@@ -10,6 +10,9 @@ Sound Manager
     - auto python creation of defines
         - sub folders are preprended to name
     
+
+//https://bedroomcoders.co.uk/posts/267
+// for concurrent sounds
 
 ====== Later =========
 B Search Tree

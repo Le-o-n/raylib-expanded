@@ -3,7 +3,7 @@
 
 #include "config.h"
 #include "raylib_wrapper.h"
-#include "sound_manager.h"
+#include "sounds/sound_manager.h"
 #include "raylib.h"
 
 

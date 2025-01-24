@@ -1,6 +1,7 @@
 #include "sounds/sound_manager.h"
 
 
+
 int SoundManager_Context_init(SoundManager_Context* sound_manager){
     if (!sound_manager){
         return 1; //fail
@@ -25,8 +26,15 @@ int SoundManager_Context_init(SoundManager_Context* sound_manager){
         (size_t)25
     );
 
-    sound_manager->sound_hashmap = sound_hashmap
-
+    sound_manager->sound_hashmap = sound_hashmap;
+    
+    Raylib_Sound meow = Raylib_Sound_load(
+        "./assets/audio/cat/meow_01.mp3"
+    );
+    
+    Raylib_Sound_play(meow);
+        
+    
     return 0; //success
 }
 
@@ -42,6 +50,6 @@ int SoundManager_Context_delete(SoundManager_Context* sound_manager){
 
     Raylib_Sound_closeAudioDevice();
 
-    free(sound_manager)
+    free(sound_manager);
     return 0; //success
 }

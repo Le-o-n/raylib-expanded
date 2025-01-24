@@ -3,14 +3,28 @@ import glob
 import platform
 import sys
 import argparse
-from resolve_library import Raylib
+import shutil
 
-FILE_DIRPATH: str = os.path.abspath(os.path.dirname(__file__))
-ROOT: str = os.path.join(
-    FILE_DIRPATH,
-    os.pardir
+FILE_DIRPATH: str = os.path.abspath(
+    os.path.dirname(__file__)
 )
+ROOT: str = os.path.join(
+    FILE_DIRPATH
+)
+ASSET_DIRPATH: str = os.path.join(
+    ROOT,
+    "assets"
+)
+BUILD_DIRPATH: str = os.path.join(
+    ROOT,
+    "build"
+)
+os.makedirs(BUILD_DIRPATH, exist_ok=True)
 
+BUILD_ASSETS_DIRPATH: str = os.path.join(
+    BUILD_DIRPATH,
+    os.path.basename(ASSET_DIRPATH)
+)
 
 # ===============================================================
 # ===============================================================
@@ -20,7 +34,7 @@ ROOT: str = os.path.join(
 
 COMPILER: str = "gcc"
 OUT: list[str] = [
-    ROOT, "build", "main.exe"
+    BUILD_DIRPATH, "main.exe"
 ]
 C_FILES: list[list[str]] = [
     [ROOT, "src", "**/*.c"]
@@ -29,11 +43,11 @@ C_FILES: list[list[str]] = [
 INCLUDE_PATHS: list[list[str]] = [
     [ROOT, "include"],
     [ROOT, "libraries", "clay-0.12", "include"],
-    [ROOT, "libraries", "raylib-5.5", Raylib.get_dist(), "include"],
+    [ROOT, "libraries", "raylib-5.5", "raylib-5.5_win64_mingw-w64", "include"],
 ]
 
 LIBRARY_PATHS: list[list[str]] = [
-    [ROOT, "libraries", "raylib-5.5", Raylib.get_dist(), "lib"]
+    [ROOT, "libraries", "raylib-5.5", "raylib-5.5_win64_mingw-w64", "lib"]
 ]
 
 LIBRARIES: list[str] = [
@@ -192,6 +206,12 @@ def main() -> None:
         print(f"Running command: {command}\n")
 
     os.system(command)
+
+    shutil.copytree(
+        ASSET_DIRPATH,
+        BUILD_ASSETS_DIRPATH,
+        dirs_exist_ok=True
+    )
 
 
 if __name__ == "__main__":
