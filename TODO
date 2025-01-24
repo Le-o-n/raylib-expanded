@@ -13,7 +13,7 @@ Sound Manager
 
 //https://bedroomcoders.co.uk/posts/267
 // for concurrent sounds
-
+  - wrap concurrency in a new struct that takes param filepath and number of max concurrencies, make it a cyclic queue, just play the head if not already playing, ez
 ====== Later =========
 B Search Tree
 Heap
