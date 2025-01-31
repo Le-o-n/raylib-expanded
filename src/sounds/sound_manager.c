@@ -1,5 +1,5 @@
 #include "sounds/sound_manager.h"
-
+#include "assets.h"
 
 
 int SoundManager_Context_init(SoundManager_Context* sound_manager){
@@ -29,7 +29,7 @@ int SoundManager_Context_init(SoundManager_Context* sound_manager){
     sound_manager->sound_hashmap = sound_hashmap;
     
     Raylib_Sound meow = Raylib_Sound_load(
-        "./assets/audio/cat/meow_01.mp3"
+        ASSETS_AUDIO_CAT_MEOW_01
     );
     
     Raylib_Sound_play(meow);
